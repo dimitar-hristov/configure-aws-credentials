@@ -94,7 +94,7 @@ async function assumeRole(params) {
 
     assumeRoleRequest.WebIdentityToken = webIdentityToken;
     if(isDefined(inlineSessionPolicy)) {
-      assumeRoleRequest.inlineSessionPolicy = inlineSessionPolicy;
+      assumeRoleRequest.Policy = inlineSessionPolicy;
     }
     assumeFunction = sts.assumeRoleWithWebIdentity.bind(sts);
   } else if(isDefined(webIdentityTokenFile)) {
