@@ -28,7 +28,8 @@ async function assumeRole(params) {
     region,
     roleSkipSessionTagging,
     webIdentityTokenFile,
-    webIdentityToken
+    webIdentityToken,
+    inlineSessionPolicy
   } = params;
   assert(
       [roleToAssume, roleDurationSeconds, roleSessionName, region].every(isDefined),
@@ -92,6 +93,9 @@ async function assumeRole(params) {
     delete assumeRoleRequest.Tags;
 
     assumeRoleRequest.WebIdentityToken = webIdentityToken;
+    if(isDefined(inlineSessionPolicy)) {
+      assumeRoleRequest.inlineSessionPolicy = inlineSessionPolicy;
+    }
     assumeFunction = sts.assumeRoleWithWebIdentity.bind(sts);
   } else if(isDefined(webIdentityTokenFile)) {
     core.debug("webIdentityTokenFile provided. Will call sts:AssumeRoleWithWebIdentity and take session tags from token contents.");
@@ -278,6 +282,7 @@ async function run() {
     const roleSkipSessionTaggingInput = core.getInput('role-skip-session-tagging', { required: false })|| 'false';
     const roleSkipSessionTagging = roleSkipSessionTaggingInput.toLowerCase() === 'true';
     const webIdentityTokenFile = core.getInput('web-identity-token-file', { required: false });
+    const inlineSessionPolicy = core.getInput('inline-session-policy', { required: false });
 
     if (!region.match(REGION_REGEX)) {
       throw new Error(`Region is not valid: ${region}`);
@@ -340,7 +345,8 @@ async function run() {
             roleSessionName,
             roleSkipSessionTagging,
             webIdentityTokenFile,
-            webIdentityToken
+            webIdentityToken,
+            inlineSessionPolicy
           }) }, true);
       exportCredentials(roleCredentials);
       // We need to validate the credentials in 2 of our use-cases
