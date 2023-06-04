@@ -93,10 +93,13 @@ async function assumeRole(params) {
   }
 
   if (isDefined(managedSessionPolicies)) {
+    core.debug(managedSessionPolicies)
     const policyArns = []
     for (const managedSessionPolicy of managedSessionPolicies) {
+      core.debug(managedSessionPolicy)
       policyArns.push({arn: managedSessionPolicy})
     }
+    core.debug(managedSessionPolicy)
     assumeRoleRequest.PolicyArns = policyArns;
   }
 
