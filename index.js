@@ -93,7 +93,7 @@ async function assumeRole(params) {
   }
 
   core.debug("managedSessionPolicies: " + managedSessionPolicies)
-  if (isDefined(managedSessionPolicies)) {
+  if (managedSessionPolicies.length) {
     core.debug("Inside of the function: " + managedSessionPolicies)
     const policyArns = []
     for (const managedSessionPolicy of managedSessionPolicies) {
