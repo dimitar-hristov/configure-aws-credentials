@@ -810,7 +810,7 @@ describe('Configure AWS Credentials', () => {
         })
     });
 
-    test('inline session policy provided', async () => {
+    test('managed session policy provided', async () => {
         const MANAGED_SESSION_POLICIES = ["arn:aws:iam::111111111111:policy/foo", "arn:aws:iam::111111111111:policy/bar"];
         core.getInput = jest
             .fn()
