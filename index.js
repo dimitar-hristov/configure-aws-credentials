@@ -92,14 +92,15 @@ async function assumeRole(params) {
     assumeRoleRequest.Policy = inlineSessionPolicy;
   }
 
+  core.debug("managedSessionPolicies: " + managedSessionPolicies)
   if (isDefined(managedSessionPolicies)) {
-    core.debug(managedSessionPolicies)
+    core.debug("Inside of the function: " + managedSessionPolicies)
     const policyArns = []
     for (const managedSessionPolicy of managedSessionPolicies) {
-      core.debug(managedSessionPolicy)
+      core.debug("managedSessionPolicy: " + managedSessionPolicy)
       policyArns.push({arn: managedSessionPolicy})
     }
-    core.debug(managedSessionPolicy)
+    core.debug("policyArns: " + policyArns)
     assumeRoleRequest.PolicyArns = policyArns;
   }
 
@@ -325,6 +326,7 @@ async function run() {
     const inlineSessionPolicy = core.getInput('inline-session-policy', { required: false });
     const managedSessionPolicies = core.getMultilineInput('managed-session-policies', { required: false })
 
+    core.debug("Original input: " + managedSessionPolicies)
     if (!region.match(REGION_REGEX)) {
       throw new Error(`Region is not valid: ${region}`);
     }
